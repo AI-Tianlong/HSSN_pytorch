@@ -72,6 +72,7 @@ test_pipeline = [
     dict(
         type='MultiScaleFlipAug',
         img_scale=(2048, 1024),
+        img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],
         flip=False,
         transforms=[
             dict(type='Resize', keep_ratio=True),
@@ -120,6 +121,7 @@ data = dict(
             dict(
                 type='MultiScaleFlipAug',
                 img_scale=(2048, 1024),
+                img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],
                 flip=False,
                 transforms=[
                     dict(type='Resize', keep_ratio=True),
@@ -136,13 +138,14 @@ data = dict(
     test=dict(
         type='CityscapesDataset',
         data_root='data/cityscapes/',
-        img_dir='leftImg8bit/val',
-        ann_dir='gtFine/val',
+        img_dir='leftImg8bit/test',
+        ann_dir='gtFine/test',
         pipeline=[
             dict(type='LoadImageFromFile'),
             dict(
                 type='MultiScaleFlipAug',
                 img_scale=(2048, 1024),
+                img_ratios=[0.5, 0.75, 1.0, 1.25, 1.5, 1.75],
                 flip=False,
                 transforms=[
                     dict(type='Resize', keep_ratio=True),
@@ -160,7 +163,7 @@ log_config = dict(
     interval=50, hooks=[dict(type='TextLoggerHook', by_epoch=False)])
 dist_params = dict(backend='nccl')
 log_level = 'INFO'
-load_from = None
+load_from = '/HOME/scz5158/run/ATL/OpenMMLab/HSSN_pytorch/pretrained/deeplabv3plus_r101-d8_512x1024_80k_cityscapes_hiera_triplet.pth'
 resume_from = None
 workflow = [('train', 1)]
 cudnn_benchmark = True
@@ -168,7 +171,7 @@ optimizer = dict(type='SGD', lr=0.01, momentum=0.9, weight_decay=5e-05)
 optimizer_config = dict()
 lr_config = dict(policy='poly', power=0.9, min_lr=5e-05, by_epoch=False)
 runner = dict(type='IterBasedRunner', max_iters=80000)
-checkpoint_config = dict(by_epoch=False, interval=8000)
-evaluation = dict(interval=8000, metric='mIoU')
+checkpoint_config = dict(by_epoch=False, interval=100)
+evaluation = dict(interval=100, metric='mIoU')
 work_dir = 'output'
 gpu_ids = range(0, 1)

@@ -13,3 +13,5 @@ model = dict(
     auxiliary_head=dict(num_classes=19),
     test_cfg=dict(mode='whole', is_hiera=True, hiera_num_classes=7)
 )
+
+load_from = '/HOME/scz5158/run/ATL/OpenMMLab/HSSN_pytorch/pretrained/deeplabv3plus_r101-d8_512x1024_80k_cityscapes_hiera_triplet.pth'
